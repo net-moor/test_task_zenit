@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    database: postgresql
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://${ENV_DB_HOST:localhost}:${ENV_DB_PORT:5432}/ib?currentSchema=${ENV_DB_SCHEMA:zenit}"
+    username: ${ENV_DB_USER:zenit}
+    password: ${ENV_DB_PASSWORD:zenit}
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 7190000
+      minimumIdle: 2
+      maximumPoolSize: 50
+
+  liquibase:
+    enabled: true
+    change-log: db/changelog/changelog.xml
+    drop-first: false
+    test-rollback-on-update: true
+    default-schema: ${ENV_DB_SCHEMA:zenit}
+    liquibase-schema: ${ENV_DB_SCHEMA:zenit}
+    user: ${ENV_DB_USER_MIGRATION:zenit}
+    password: ${ENV_DB_PASSWORD_MIGRATION:zenit}

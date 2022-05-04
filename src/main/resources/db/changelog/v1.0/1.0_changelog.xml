@@ -5,4 +5,97 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
+    <changeSet id="04.05.2022_create_table_project_manager" author="Nikolai.Batov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="project_manager"/>
+            </not>
+        </preConditions>
+        <createTable tableName="project_manager" remarks="Руководитель проекта">
+            <column name="id" type="UUID" remarks="Идентификатор">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="fist_name" type="varchar(60)" remarks="Имя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(60)" remarks="Отчество"/>
+            <column name="last_name" type="varchar(60)" remarks="Фамилия"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="04.05.2022_create_table_project" author="Nikolai.Batov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="project"/>
+            </not>
+        </preConditions>
+        <createTable tableName="project" remarks="Проект">
+            <column name="id" type="UUID" remarks="Идентификатор">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)" remarks="Наименование проекта">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="varchar(20)" remarks="Статус" defaultValue="NOT_STARTED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started_at" type="timestamp" remarks="Дата и время старта проекта"/>
+            <column name="ended_at" type="timestamp" remarks="Дата и время завершение проекта"/>
+            <column name="project_manager_id" type="UUID" remarks="Руководитель проекта"/>
+        </createTable>
+        
+        <addForeignKeyConstraint baseTableName="project"
+                                 baseColumnNames="project_manager_id"
+                                 constraintName="fk_project_pr_manager_project_id"
+                                 referencedTableName="project_manager"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="04.05.2022_create_table_executor" author="Nikolai.Batov">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="executor"/>
+            </not>
+        </preConditions>
+        <createTable tableName="executor" remarks="Исполнитель">
+            <column name="id" type="UUID" remarks="Идентификатор">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="fist_name" type="varchar(60)" remarks="Имя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="middle_name" type="varchar(60)" remarks="Отчество"/>
+            <column name="last_name" type="varchar(60)" remarks="Фамилия"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="04.05.2022_create_table_project_executor" author="Nikolai.Batov">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="project"/>
+            <tableExists tableName="executor"/>
+        </preConditions>
+        <createTable tableName="project_executor">
+            <column name="project_id" type="UUID" remarks="Идентификатор проекта">
+                <constraints nullable="false"/>
+            </column>
+            <column name="executor_id" type="UUID" remarks="Идентификатор исполнителя">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint constraintName="uniq_project_id_executor_id" tableName="project_executor" columnNames="project_id, executor_id"/>
+        <addForeignKeyConstraint baseTableName="project_executor"
+                                 baseColumnNames="project_id"
+                                 constraintName="fk_project_executor_project_id_project_id"
+                                 referencedTableName="project"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="project_executor"
+                                 baseColumnNames="executor_id"
+                                 constraintName="fk_project_executor_executor_id_executor_id"
+                                 referencedTableName="executor"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    
+    <changeSet id="04.05.2022_create_tag" author="Nikolai.Batov">
+        <tagDatabase tag="1.0_version"/>
+    </changeSet>
 </databaseChangeLog>

@@ -2,6 +2,8 @@ package com.netmoor.zenit_task.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Accessors(chain = true)
+@FieldNameConstants
 public class ProjectManager {
 
     @Id

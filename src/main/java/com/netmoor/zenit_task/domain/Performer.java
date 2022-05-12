@@ -2,6 +2,8 @@ package com.netmoor.zenit_task.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -17,7 +19,9 @@ import java.util.UUID;
 
 @Data
 @Entity
-public class Executor {
+@FieldNameConstants
+@Accessors(chain = true)
+public class Performer {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -34,8 +38,8 @@ public class Executor {
 
     @ToString.Exclude
     @ManyToMany
-    @JoinTable(name = "project_executor",
-            joinColumns = @JoinColumn(name = "executor_id"),
+    @JoinTable(name = "project_performer",
+            joinColumns = @JoinColumn(name = "performer_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
 

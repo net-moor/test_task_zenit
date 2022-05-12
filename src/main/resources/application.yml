@@ -23,3 +23,7 @@ spring:
     liquibase-schema: ${ENV_DB_SCHEMA:zenit}
     user: ${ENV_DB_USER_MIGRATION:zenit}
     password: ${ENV_DB_PASSWORD_MIGRATION:zenit}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

@@ -11,7 +11,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 /**
  * @author Nikolay_Batov on 04.05.2022
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles(value = "test")
 @Testcontainers
 public abstract class BaseTest {

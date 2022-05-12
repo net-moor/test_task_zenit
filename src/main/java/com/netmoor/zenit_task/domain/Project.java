@@ -2,6 +2,8 @@ package com.netmoor.zenit_task.domain;
 
 import lombok.Data;
 import lombok.ToString;
+import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -23,6 +25,8 @@ import java.util.UUID;
  */
 @Data
 @Entity
+@Accessors(chain = true)
+@FieldNameConstants
 public class Project {
 
     @Id
@@ -45,12 +49,12 @@ public class Project {
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "projects")
-    private List<Executor> executors = new ArrayList<>();
+    private List<Performer> performers = new ArrayList<>();
 
-    public void setExecutors(List<Executor> executors) {
-        if (Objects.nonNull(executors)) {
-            this.executors.clear();
-            this.executors.addAll(executors);
+    public void setPerformers(List<Performer> performers) {
+        if (Objects.nonNull(performers)) {
+            this.performers.clear();
+            this.performers.addAll(performers);
         }
     }
 }

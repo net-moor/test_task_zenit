@@ -51,13 +51,13 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="04.05.2022_create_table_executor" author="Nikolai.Batov">
+    <changeSet id="04.05.2022_create_table_performer" author="Nikolai.Batov">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="executor"/>
+                <tableExists tableName="performer"/>
             </not>
         </preConditions>
-        <createTable tableName="executor" remarks="Исполнитель">
+        <createTable tableName="performer" remarks="Исполнитель">
             <column name="id" type="UUID" remarks="Идентификатор">
                 <constraints primaryKey="true"/>
             </column>
@@ -69,29 +69,29 @@
         </createTable>
     </changeSet>
     
-    <changeSet id="04.05.2022_create_table_project_executor" author="Nikolai.Batov">
+    <changeSet id="04.05.2022_create_table_project_performer" author="Nikolai.Batov">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="project"/>
-            <tableExists tableName="executor"/>
+            <tableExists tableName="performer"/>
         </preConditions>
-        <createTable tableName="project_executor">
+        <createTable tableName="project_performer">
             <column name="project_id" type="UUID" remarks="Идентификатор проекта">
                 <constraints nullable="false"/>
             </column>
-            <column name="executor_id" type="UUID" remarks="Идентификатор исполнителя">
+            <column name="performer_id" type="UUID" remarks="Идентификатор исполнителя">
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint constraintName="uniq_project_id_executor_id" tableName="project_executor" columnNames="project_id, executor_id"/>
-        <addForeignKeyConstraint baseTableName="project_executor"
+        <addUniqueConstraint constraintName="uniq_project_id_performer_id" tableName="project_performer" columnNames="project_id, performer_id"/>
+        <addForeignKeyConstraint baseTableName="project_performer"
                                  baseColumnNames="project_id"
-                                 constraintName="fk_project_executor_project_id_project_id"
+                                 constraintName="fk_project_performer_project_id_project_id"
                                  referencedTableName="project"
                                  referencedColumnNames="id"/>
-        <addForeignKeyConstraint baseTableName="project_executor"
-                                 baseColumnNames="executor_id"
-                                 constraintName="fk_project_executor_executor_id_executor_id"
-                                 referencedTableName="executor"
+        <addForeignKeyConstraint baseTableName="project_performer"
+                                 baseColumnNames="performer_id"
+                                 constraintName="fk_project_performer_performer_id_performer_id"
+                                 referencedTableName="performer"
                                  referencedColumnNames="id"/>
     </changeSet>
     
